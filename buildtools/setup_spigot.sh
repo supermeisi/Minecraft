@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SPIGOT_VERSION=26.1.1
+SPIGOT_VERSION=latest
 
 set -e  # Stop on error
 
