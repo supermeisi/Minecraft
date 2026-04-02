@@ -31,9 +31,9 @@ jobs:
       - name: Compile Spigot
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.MINECRAFT_HOST }}
+          username: ${{ secrets.MINECRAFT_USER }}
+          key: ${{ secrets.MINECRAFT_KEY }}
           script: |
             cd ${{ secrets.MINECRAFT_TARGET_DIR }}/buildtools
             sudo bash setup_spigot.sh
