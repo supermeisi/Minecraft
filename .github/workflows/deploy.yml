@@ -28,6 +28,10 @@ jobs:
             .github/
             .gitignore
 
+  compile:
+    runs-on: ubuntu-latest
+    
+    steps:
       - name: Compile Spigot
         uses: appleboy/ssh-action@v1.0.0
         with:
