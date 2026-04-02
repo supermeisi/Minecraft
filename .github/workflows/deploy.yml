@@ -9,7 +9,7 @@
         with:
           server: ${{ secrets.MINECRAFT_HOST }}
           username: ${{ secrets.MINECRAFT_USER }}
-          password: ${{ secrets.MINECRAFT_PASSWORD }}
+          key: ${{ secrets.MINECRAFT_KEY }}
           port: ${{ secrets.MINECRAFT_PORT }}
           uploads: |
             ./ => ${{ secrets.MINECRAFT_TARGET_DIR }}
