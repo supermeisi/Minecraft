@@ -36,4 +36,4 @@ jobs:
           key: ${{ secrets.MINECRAFT_KEY }}
           script: |
             cd ${{ secrets.MINECRAFT_TARGET_DIR }}/buildtools
-            sudo bash setup_spigot.sh
+            bash setup_spigot.sh
