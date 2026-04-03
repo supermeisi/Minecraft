@@ -42,6 +42,10 @@ jobs:
 
             SPIGOT_VERSION=1.21.11
 
+            find . -mindepth 1 -maxdepth 1 \
+              ! -name BuildTools.jar \
+              -exec rm -rf {} +
+
             wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
             java -jar BuildTools.jar --rev "$SPIGOT_VERSION"
 
