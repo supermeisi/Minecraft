@@ -9,7 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -34,19 +34,25 @@ jobs:
           host: ${{ secrets.MINECRAFT_HOST }}
           username: ${{ secrets.MINECRAFT_USER }}
           key: ${{ secrets.MINECRAFT_KEY }}
+          port: ${{ secrets.MINECRAFT_PORT }}
           script: |
-            cd ${{ secrets.MINECRAFT_TARGET_DIR }}/buildtools
+            set -e
+            cd "${{ secrets.MINECRAFT_TARGET_DIR }}/buildtools"
             bash setup_spigot.sh
 
-      - name: Create systemctl file
-        # Create systemd service
+      - name: Create systemd user service
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.MINECRAFT_HOST }}
           username: ${{ secrets.MINECRAFT_USER }}
           key: ${{ secrets.MINECRAFT_KEY }}
+          port: ${{ secrets.MINECRAFT_PORT }}
           script: |
+            set -e
+            export XDG_RUNTIME_DIR=/run/user/$(id -u)
+
             mkdir -p ~/.config/systemd/user
+
             cat > ~/.config/systemd/user/minecraft.service <<EOL
             [Unit]
             Description=Minecraft Server
@@ -54,18 +60,20 @@ jobs:
 
             [Service]
             Type=forking
-            User=minecraft
-            Group=minecraft
             WorkingDirectory=${{ secrets.MINECRAFT_TARGET_DIR }}/server
-            ExecStart=/usr/bin/screen -d -m -S minecraft ${{ secrets.MINECRAFT_TARGET_DIR }}/server/spigotstart.sh
-            ExecStop=/usr/bin/screen -S minecraft -p 0 -X stuff "stop\n"
+            ExecStart=/usr/bin/screen -dmS minecraft ${{ secrets.MINECRAFT_TARGET_DIR }}/server/spigotstart.sh
+            ExecStop=/usr/bin/screen -S minecraft -p 0 -X stuff $'stop\n'
             Restart=on-failure
+            RestartSec=10
 
             [Install]
-            WantedBy=multi-user.target
+            WantedBy=default.target
             EOL
+
             systemctl --user daemon-reload
+            systemctl --user disable minecraft || true
+            rm -f ~/.config/systemd/user/multi-user.target.wants/minecraft.service
             systemctl --user enable minecraft
-            loginctl enable-linger minecraft
-            systemctl --user start minecraft
-            systemctl --user status minecraft
+            loginctl enable-linger "$USER" || true
+            systemctl --user restart minecraft || systemctl --user start minecraft
+            systemctl --user status minecraft --no-pager
