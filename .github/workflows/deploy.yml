@@ -46,9 +46,8 @@ jobs:
           username: ${{ secrets.MINECRAFT_USER }}
           key: ${{ secrets.MINECRAFT_KEY }}
           script: |
-            systemctl --user stop minecraft
             mkdir -p ~/.config/systemd/user
-            cat > /etc/systemd/system/minecraft.service <<EOL
+            cat > ~/.config/systemd/user/minecraft.service <<EOL
             [Unit]
             Description=Minecraft Server
             After=network.target
@@ -65,6 +64,7 @@ jobs:
             [Install]
             WantedBy=multi-user.target
             EOL
+            systemctl --user daemon-reload
             systemctl --user enable minecraft
             loginctl enable-linger minecraft
             systemctl --user start minecraft
