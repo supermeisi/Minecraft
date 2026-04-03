@@ -68,6 +68,9 @@ jobs:
               "LuckPerms.jar|https://download.luckperms.net/1631/bukkit/loader/LuckPerms-Bukkit-5.5.42.jar"
               "BlueMap.jar|https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v5.18/bluemap-5.18-spigot.jar"
             )
+
+            # Stop server
+            systemctl --user stop minecraft
             
             mkdir -p "$SERVER_FOLDER/plugins"
             cd "$SERVER_FOLDER/plugins"
