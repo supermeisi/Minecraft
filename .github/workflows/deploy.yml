@@ -51,6 +51,29 @@ jobs:
 
             cp "spigot-${SPIGOT_VERSION}.jar" ../server/spigot.jar
 
+      - name: Install plugins
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.MINECRAFT_HOST }}
+          username: ${{ secrets.MINECRAFT_USER }}
+          key: ${{ secrets.MINECRAFT_KEY }}
+          port: ${{ secrets.MINECRAFT_PORT }}
+          script: |
+            PLUGINS=(
+            "EssentialsX.jar|https://github.com/EssentialsX/Essentials/releases/download/2.21.0/EssentialsX-2.21.2.jar"
+            "LuckPerms.jar|https://download.luckperms.net/1581/bukkit/loader/LuckPerms-Bukkit-5.5.42.jar"
+            "BlueMap.jar|https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v5.7/bluemap-5.18-spigot.jar"
+            )
+            
+            # Download plugins
+            mkdir -p "${{ secrets.MINECRAFT_TARGET_DIR }}/plugins"
+            cd "$SERVER_FOLDER/plugins"
+            
+            for entry in "${PLUGINS[@]}"; do
+              IFS="|" read -r name url <<< "$entry"
+              sudo -u $MC_USER wget -O "$name" "$url"
+            done
+
       - name: Create systemd user service
         uses: appleboy/ssh-action@v1.0.0
         with:
