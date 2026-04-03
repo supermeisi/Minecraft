@@ -40,7 +40,7 @@ jobs:
 
             cd "${{ secrets.MINECRAFT_TARGET_DIR }}/buildtools"
 
-            SPIGOT_VERSION=1.21.1
+            SPIGOT_VERSION=1.21.11
 
             wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
             java -jar BuildTools.jar --rev "$SPIGOT_VERSION"
