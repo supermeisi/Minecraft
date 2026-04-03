@@ -60,8 +60,8 @@ jobs:
 
             [Service]
             Type=forking
-            WorkingDirectory=${{ secrets.MINECRAFT_TARGET_DIR }}/server
-            ExecStart=/usr/bin/screen -dmS minecraft ${{ secrets.MINECRAFT_TARGET_DIR }}/server/spigotstart.sh
+            WorkingDirectory=/home/${{ secrets.MINECRAFT_USER }}/${{ secrets.MINECRAFT_TARGET_DIR }}/server
+            ExecStart=/usr/bin/screen -dmS minecraft /home/${{ secrets.MINECRAFT_USER }}/${{ secrets.MINECRAFT_TARGET_DIR }}/server/spigotstart.sh
             ExecStop=/usr/bin/screen -S minecraft -p 0 -X stuff $'stop\n'
             Restart=on-failure
             RestartSec=10
