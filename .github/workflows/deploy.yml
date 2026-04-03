@@ -38,7 +38,17 @@ jobs:
           script: |
             set -e
             cd "${{ secrets.MINECRAFT_TARGET_DIR }}/buildtools"
-            bash setup_spigot.sh
+            #!/bin/bash
+
+            SPIGOT_VERSION=1.21.11
+
+            set -e  # Stop on error
+
+            # Compile Spigot
+            wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+            java -jar BuildTools.jar --rev "$SPIGOT_VERSION"
+
+            cp spigot-${SPIGOT_VERSION} ../server/
 
       - name: Create systemd user service
         uses: appleboy/ssh-action@v1.0.0
