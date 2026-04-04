@@ -71,10 +71,16 @@ jobs:
 
             # Stop server
             systemctl --user stop minecraft
-            
+
+            # Create plugin folder if not existing
             mkdir -p "$SERVER_FOLDER/plugins"
+
+            # Remove all old plugins
+            rm $SERVER_FOLDER/plugins/*.jar
+
             cd "$SERVER_FOLDER/plugins"
-            
+
+            # Download plugins
             for entry in "${PLUGINS[@]}"; do
               IFS="|" read -r name url <<< "$entry"
               wget -O "$name" "$url"
