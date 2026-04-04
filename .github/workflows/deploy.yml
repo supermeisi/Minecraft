@@ -79,6 +79,7 @@ jobs:
               "LuckPerms.jar|https://download.luckperms.net/1631/bukkit/loader/LuckPerms-Bukkit-5.5.42.jar"
               "BlueMap.jar|https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v5.18/bluemap-5.18-spigot.jar"
               "DiscordSRV.jar|https://download.discordsrv.com/v2/DiscordSRV/DiscordSRV/release/download/v1.30.4/DiscordSRV-Build-1.30.4.jar"
+              "Plan.jar|https://github.com/plan-player-analytics/Plan/releases/download/5.7.3306/Plan-5.7-build-3306.jar"
             )
 
             # Stop server
