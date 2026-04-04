@@ -62,6 +62,41 @@ jobs:
 
             cp "spigot-${SPIGOT_VERSION}.jar" ../server/spigot.jar
 
+      - name: Create systemd user service
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.MINECRAFT_HOST }}
+          username: ${{ secrets.MINECRAFT_USER }}
+          key: ${{ secrets.MINECRAFT_KEY }}
+          port: ${{ secrets.MINECRAFT_PORT }}
+          script: |
+            set -e
+            export XDG_RUNTIME_DIR=/run/user/$(id -u)
+
+            mkdir -p ~/.config/systemd/user
+
+            cat > ~/.config/systemd/user/minecraft.service <<EOL
+            [Unit]
+            Description=Minecraft Server
+            After=network.target
+
+            [Service]
+            Type=simple
+            WorkingDirectory=/home/${{ secrets.MINECRAFT_USER }}/${{ secrets.MINECRAFT_TARGET_DIR }}/server
+            ExecStart=/bin/bash /home/${{ secrets.MINECRAFT_USER }}/${{ secrets.MINECRAFT_TARGET_DIR }}/server/spigotstart.sh
+            Restart=on-failure
+            RestartSec=10
+
+            [Install]
+            WantedBy=default.target
+            EOL
+
+            systemctl --user daemon-reload
+            systemctl --user disable minecraft || true
+            rm -f ~/.config/systemd/user/default.target.wants/minecraft.service
+            systemctl --user enable minecraft
+            loginctl enable-linger "$USER" || true
+
       - name: Install plugins
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -107,39 +142,5 @@ jobs:
               wget -O "$name" "$url"
             done
 
-      - name: Create systemd user service
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.MINECRAFT_HOST }}
-          username: ${{ secrets.MINECRAFT_USER }}
-          key: ${{ secrets.MINECRAFT_KEY }}
-          port: ${{ secrets.MINECRAFT_PORT }}
-          script: |
-            set -e
-            export XDG_RUNTIME_DIR=/run/user/$(id -u)
-
-            mkdir -p ~/.config/systemd/user
-
-            cat > ~/.config/systemd/user/minecraft.service <<EOL
-            [Unit]
-            Description=Minecraft Server
-            After=network.target
-
-            [Service]
-            Type=simple
-            WorkingDirectory=/home/${{ secrets.MINECRAFT_USER }}/${{ secrets.MINECRAFT_TARGET_DIR }}/server
-            ExecStart=/bin/bash /home/${{ secrets.MINECRAFT_USER }}/${{ secrets.MINECRAFT_TARGET_DIR }}/server/spigotstart.sh
-            Restart=on-failure
-            RestartSec=10
-
-            [Install]
-            WantedBy=default.target
-            EOL
-
-            systemctl --user daemon-reload
-            systemctl --user disable minecraft || true
-            rm -f ~/.config/systemd/user/default.target.wants/minecraft.service
-            systemctl --user enable minecraft
-            loginctl enable-linger "$USER" || true
             systemctl --user restart minecraft || systemctl --user start minecraft
             systemctl --user status minecraft --no-pager
