@@ -80,6 +80,14 @@ jobs:
               "BlueMap.jar|https://github.com/BlueMap-Minecraft/BlueMap/releases/download/v5.18/bluemap-5.18-spigot.jar"
               "DiscordSRV.jar|https://download.discordsrv.com/v2/DiscordSRV/DiscordSRV/release/download/v1.30.4/DiscordSRV-Build-1.30.4.jar"
               "Plan.jar|https://github.com/plan-player-analytics/Plan/releases/download/5.7.3306/Plan-5.7-build-3306.jar"
+              "ClansLite.jar|https://hangarcdn.papermc.io/plugins/Loving11ish/ClansLite/versions/1.6.3/PAPER/ClansLite-1.6.3.jar"
+              "PvPManager.jar|https://cdn.modrinth.com/data/1Ffl2uIq/versions/OhJOp27l/PvPManager.jar"
+              "ViaBackwards.jar|https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.8.1/PAPER/ViaBackwards-5.8.1.jar"
+              "ViaVersions.jar|https://ci.viaversion.com/job/ViaVersion/1349/artifact/build/libs/ViaVersion-5.8.1.jar"
+              "SetHome.jar|https://cdn.modrinth.com/data/1apsbntF/versions/12w6NDCz/SetHome-6.1.jar"
+              "Geyser-Spigot.jar|https://download.geysermc.org/v2/projects/geyser/versions/2.9.5/builds/1110/downloads/spigot"
+              "floodgate-spigot.jar|https://download.geysermc.org/v2/projects/floodgate/versions/2.2.5/builds/131/downloads/spigot"
+              "FoxAddition.jar|https://cdn.modrinth.com/data/q9Lcd0FU/versions/2BMx3SKk/FoxAddition.jar"
             )
 
             # Stop server
