@@ -19,14 +19,11 @@ jobs:
         run: |
           set -euo pipefail
           
-          TEMPLATE="server/plugins/DiscordSRV/config.yml.template"
-          OUTPUT="server/plugins/DiscordSRV/config.yml"
+          FILENAME="server/plugins/DiscordSRV/config.yml"
           
-          cp "$TEMPLATE" "$OUTPUT"
-          
-          sed -i 's|__DISCORDSRV_BOT_TOKEN__|${{ secrets.DISCORDSRV_BOT_TOKEN }}|g' "$OUTPUT"
-          sed -i 's|__DISCORD_CHANNEL_ID__|${{ secrets.DISCORD_CHANNEL_ID }}|g' "$OUTPUT"
-          sed -i 's|__DISCORD_CONSOLE_CHANNEL_ID__|${{ secrets.DISCORD_CONSOLE_CHANNEL_ID }}|g' "$OUTPUT"
+          sed -i 's|__DISCORDSRV_BOT_TOKEN__|${{ secrets.DISCORDSRV_BOT_TOKEN }}|g' "$FILENAME"
+          sed -i 's|__DISCORD_CHANNEL_ID__|${{ secrets.DISCORD_CHANNEL_ID }}|g' "$FILENAME"
+          sed -i 's|__DISCORD_CONSOLE_CHANNEL_ID__|${{ secrets.DISCORD_CONSOLE_CHANNEL_ID }}|g' "$FILENAME"
         
       - name: Deploy files via SFTP
         uses: Dylan700/sftp-upload-action@latest
