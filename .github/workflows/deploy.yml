@@ -14,6 +14,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Generate DiscordSRV config from template
+        shell: bash
+        run: |
+          set -euo pipefail
+          
+          TEMPLATE="server/plugins/DiscordSRV/config.yml.template"
+          OUTPUT="server/plugins/DiscordSRV/config.yml"
+          
+          cp "$TEMPLATE" "$OUTPUT"
+          
+          sed -i 's|__DISCORDSRV_BOT_TOKEN__|${{ secrets.DISCORDSRV_BOT_TOKEN }}|g' "$OUTPUT"
+          sed -i 's|__DISCORD_CHANNEL_ID__|${{ secrets.DISCORD_CHANNEL_ID }}|g' "$OUTPUT"
+          sed -i 's|__DISCORD_CONSOLE_CHANNEL_ID__|${{ secrets.DISCORD_CONSOLE_CHANNEL_ID }}|g' "$OUTPUT"
+        
       - name: Deploy files via SFTP
         uses: Dylan700/sftp-upload-action@latest
         with:
