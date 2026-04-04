@@ -132,7 +132,7 @@ jobs:
             mkdir -p "$SERVER_FOLDER/plugins"
 
             # Remove all old plugins
-            rm $SERVER_FOLDER/plugins/*.jar
+            rm -f $SERVER_FOLDER/plugins/*.jar
 
             cd "$SERVER_FOLDER/plugins"
 
