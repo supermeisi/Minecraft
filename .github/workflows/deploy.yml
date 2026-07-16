@@ -51,7 +51,7 @@ jobs:
 
             cd "${{ secrets.MINECRAFT_TARGET_DIR }}/buildtools"
 
-            SPIGOT_VERSION=1.21.11
+            SPIGOT_VERSION=26.2
 
             find . -mindepth 1 -maxdepth 1 \
               ! -name BuildTools.jar \
